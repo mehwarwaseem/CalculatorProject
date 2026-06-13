@@ -1,11 +1,9 @@
-import tkinter as tk
+from ui.calculator_ui import CalculatorUI
+from logic.calculator_logic import CalculatorLogic
+from database.db import Database
 
-print("Program started")
-
-root = tk.Tk()
-root.title("Calculator Test")
-
-label = tk.Label(root, text="It is working")
-label.pack()
-
-root.mainloop()
+if __name__ == "__main__":
+    db = Database()
+    logic = CalculatorLogic(db)
+    app = CalculatorUI(logic)
+    app.run()
