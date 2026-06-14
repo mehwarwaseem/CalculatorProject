@@ -8,10 +8,11 @@ class Database:
         self.cursor.execute("""
         CREATE TABLE IF NOT EXISTS history (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            expression TEXT,
-            result TEXT
+            expression TEXT NOT NULL,
+            result TEXT NOT NULL
         )
         """)
+
         self.conn.commit()
 
     def save(self, expression, result):
@@ -20,3 +21,18 @@ class Database:
             (expression, str(result))
         )
         self.conn.commit()
+
+    def get_history(self):
+        self.cursor.execute("""
+            SELECT expression, result
+            FROM history
+            ORDER BY id DESC
+        """)
+        return self.cursor.fetchall()
+
+    def clear_history(self):
+        self.cursor.execute("DELETE FROM history")
+        self.conn.commit()
+
+    def close(self):
+        self.conn.close()
