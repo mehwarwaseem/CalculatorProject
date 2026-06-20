@@ -61,7 +61,7 @@ Database Layer (SQLite Storage)
 ## How to Run the Project
 
 1. Clone the repository:
-   git clone https://github.com/your-username/CalculatorProject.git
+   git clone https://github.com/mehwarwaseem/CalculatorProject.git
 
 2. Navigate to the project directory:
    cd CalculatorProject
