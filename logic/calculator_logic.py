@@ -21,7 +21,7 @@ class CalculatorLogic:
 
         elif op == "%":
             if b == 0:
-                result = "Error: Cannot divide by zero"
+                result = "Error: Cannot modulo by zero"
             else:
                 result = a % b
 
@@ -32,5 +32,4 @@ class CalculatorLogic:
             result = "Invalid Operation"
 
         self.db.save(f"{a} {op} {b}", result)
-
         return result

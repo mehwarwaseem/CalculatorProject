@@ -57,7 +57,7 @@ class CalculatorUI:
 
         tk.Button(self.window, text="+", command=lambda: self.calculate("+")).pack()
         tk.Button(self.window, text="-", command=lambda: self.calculate("-")).pack()
-        tk.Button(self.window, text="", command=lambda: self.calculate("")).pack()
+        tk.Button(self.window, text="*", command=lambda: self.calculate("*")).pack()
         tk.Button(self.window, text="/", command=lambda: self.calculate("/")).pack()
         tk.Button(self.window, text="%", command=lambda: self.calculate("%")).pack()
         tk.Button(self.window, text="^", command=lambda: self.calculate("^")).pack()
@@ -107,6 +107,3 @@ class CalculatorUI:
     def clear(self):
         for widget in self.window.winfo_children():
             widget.destroy()
-
-    def run(self):
-        self.window.mainloop()
