@@ -1,11 +1,10 @@
 import tkinter as tk
-from logic.calculator_logic import CalculatorLogic
-from database.db import Database
 
-class CalculatorApp:
-    def __init__(self):
-        self.db = Database()
-        self.logic = CalculatorLogic(self.db)
+
+class CalculatorUI:
+
+    def __init__(self, logic):
+        self.logic = logic
 
         self.window = tk.Tk()
         self.window.title("Calculator App")
@@ -17,19 +16,35 @@ class CalculatorApp:
     def show_home(self):
         self.clear()
 
-        tk.Label(self.window, text="HOME SCREEN", font=("Arial", 16, "bold")).pack(pady=10)
+        tk.Label(
+            self.window,
+            text="HOME SCREEN",
+            font=("Arial", 16, "bold")
+        ).pack(pady=15)
 
-        tk.Button(self.window, text="Calculator", width=20,
-                  command=self.show_calculator).pack(pady=5)
+        tk.Button(
+            self.window,
+            text="Calculator",
+            width=20,
+            command=self.show_calculator
+        ).pack(pady=10)
 
-        tk.Button(self.window, text="History", width=20,
-                  command=self.show_history).pack(pady=5)
+        tk.Button(
+            self.window,
+            text="History",
+            width=20,
+            command=self.show_history
+        ).pack(pady=10)
 
     # ---------------- CALCULATOR SCREEN ----------------
     def show_calculator(self):
         self.clear()
 
-        tk.Label(self.window, text="CALCULATOR", font=("Arial", 16, "bold")).pack(pady=10)
+        tk.Label(
+            self.window,
+            text="CALCULATOR",
+            font=("Arial", 16, "bold")
+        ).pack(pady=10)
 
         self.e1 = tk.Entry(self.window)
         self.e1.pack(pady=5)
@@ -40,7 +55,6 @@ class CalculatorApp:
         self.result = tk.Label(self.window, text="Result")
         self.result.pack(pady=10)
 
-        # Buttons
         tk.Button(self.window, text="+", command=lambda: self.calculate("+")).pack()
         tk.Button(self.window, text="-", command=lambda: self.calculate("-")).pack()
         tk.Button(self.window, text="*", command=lambda: self.calculate("*")).pack()
@@ -48,15 +62,19 @@ class CalculatorApp:
         tk.Button(self.window, text="%", command=lambda: self.calculate("%")).pack()
         tk.Button(self.window, text="^", command=lambda: self.calculate("^")).pack()
 
-        tk.Button(self.window, text="Back", command=self.show_home).pack(pady=10)
+        tk.Button(
+            self.window,
+            text="Back",
+            command=self.show_home
+        ).pack(pady=10)
 
     def calculate(self, op):
         try:
             a = float(self.e1.get())
             b = float(self.e2.get())
 
-            res = self.logic.calculate(a, b, op)
-            self.result.config(text=f"Result: {res}")
+            result = self.logic.calculate(a, b, op)
+            self.result.config(text=f"Result: {result}")
 
         except ValueError:
             self.result.config(text="Result: Invalid Input")
@@ -65,24 +83,27 @@ class CalculatorApp:
     def show_history(self):
         self.clear()
 
-        tk.Label(self.window, text="HISTORY", font=("Arial", 16, "bold")).pack(pady=10)
+        tk.Label(
+            self.window,
+            text="HISTORY",
+            font=("Arial", 16, "bold")
+        ).pack(pady=10)
 
-        data = self.db.get_history()
+        data = self.logic.db.get_history()
 
-        for exp, res in data:
-            tk.Label(self.window, text=f"{exp} = {res}").pack()
+        if not data:
+            tk.Label(self.window, text="No history found").pack()
+        else:
+            for exp, res in data:
+                tk.Label(self.window, text=f"{exp} = {res}").pack()
 
-        tk.Button(self.window, text="Back", command=self.show_home).pack(pady=10)
+        tk.Button(
+            self.window,
+            text="Back",
+            command=self.show_home
+        ).pack(pady=10)
 
     # ---------------- CLEAR SCREEN ----------------
     def clear(self):
         for widget in self.window.winfo_children():
             widget.destroy()
-
-    def run(self):
-        self.window.mainloop()
-
-
-if __name__ == "__main__":
-    app = CalculatorApp()
-    app.run()
